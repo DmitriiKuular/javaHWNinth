@@ -13,7 +13,7 @@ public class RadioTest {
     @CsvFileSource(files = "src/test/resources/showRadioStation.csv")
     public void shouldShowCurrentStation(int currentStation, int expected) {
         Radio radio = new Radio();
-        radio.currentStation = currentStation;
+        radio.setCurrentStation(currentStation);
         int actual = radio.getCurrentStation();
         assertEquals(expected, actual);
     }
@@ -45,20 +45,20 @@ public class RadioTest {
         assertEquals(expected, actual);
     }
 
-    @ParameterizedTest  //Проверка информции о громкости звука
+    @ParameterizedTest  //Проверка информции о громкости звука (до 100)
     @CsvFileSource(files = "src/test/resources/showVolume.csv")
     public void shouldShowCurrentVolume(int currentVolume, int expected) {
         Radio radio = new Radio();
-        radio.currentVolume = currentVolume;
+        radio.setCurrentVolume(currentVolume);
         int actual = radio.getCurrentVolume();
         assertEquals(expected, actual);
     }
 
-    @ParameterizedTest  //Проверка кнопки увеличения звука
+    @ParameterizedTest  //Проверка кнопки увеличения звука (до 100)
     @CsvFileSource(files = "src/test/resources/increaseVolume.csv")
     public void shouldIncreaseVolume(int currentVolume, int expected) {
         Radio radio = new Radio();
-        radio.currentVolume = currentVolume;
+        radio.setCurrentVolume(currentVolume);
         int actual = radio.increaseVolume();
         assertEquals(expected, actual);
     }
@@ -67,8 +67,41 @@ public class RadioTest {
     @CsvFileSource(files = "src/test/resources/reduceVolume.csv")
     public void shouldReduceVolume(int currentVolume, int expected) {
         Radio radio = new Radio();
-        radio.currentVolume = currentVolume;
+        radio.setCurrentVolume(currentVolume);
         int actual = radio.reduceVolume();
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    public void shouldSetAmountStations() {
+        Radio radio = new Radio(40);
+        assertEquals(39, radio.getLastStation());
+    }
+
+    @ParameterizedTest
+    @CsvFileSource(files = "src/test/resources/switchNextNewStation.csv")
+    public void shouldSwitchNextNewStation(int currentStation, int expected){
+        Radio radio = new Radio(15);
+        radio.setCurrentStation(currentStation);
+        int actual = radio.switchNextStation();
+        assertEquals(expected, actual);
+    }
+
+    @ParameterizedTest
+    @CsvFileSource(files = "src/test/resources/switchPrevNewStation.csv")
+    public void shouldSwitchPrevNewStation(int currentStation, int expected) {
+        Radio radio = new Radio(15);
+        radio.setCurrentStation(currentStation);
+        int actual = radio.switchPrevStation();
+        assertEquals(expected, actual);
+    }
+
+    @ParameterizedTest
+    @CsvFileSource(files = "src/test/resources/setNewRadioStation.csv")
+    public void shouldSetNewStation(int currentStation, int expected) {
+        Radio radio = new Radio(53);
+        radio.setCurrentStation(currentStation);
+        int actual = radio.getCurrentStation();
         assertEquals(expected, actual);
     }
 }
